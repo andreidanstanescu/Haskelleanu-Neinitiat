@@ -2,6 +2,7 @@
 {--import Control.Monad (mfilter)
 
 --am facut citirea de mana si nu da rasp corect decat pt cifre
+--upd acum mere
 citesc_nr :: String -> Int
 citesc_nr s = read s
 citesc_array :: [String] -> [Int]
