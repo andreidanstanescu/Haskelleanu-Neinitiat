@@ -186,5 +186,3 @@ solve map_frec keys = (sum $ map calc' keys) `div` 2  where
         | complement == x = (map_frec Map.! complement) - 1
         | otherwise = map_frec Map.! complement
         where complement = bit i - x
-=======
->>>>>>> 120ac78969b6bdce02e430bdb29bb7374405d96f
