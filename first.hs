@@ -63,6 +63,8 @@ main = do
     print $  256 * foldl1 min [k2, k5, k6] + 32 * min k3 (k2 - foldl1 min [k2, k5, k6])
 --}
 
+
+{--
 import Control.Monad
 import Data.Array
 import Data.Int
@@ -108,3 +110,77 @@ main = do
     let _for_ = minimum $ map f [0..m-1]
         
     print $ min initial _for_
+--}
+
+--test working on set equivalent for haskell
+--also bit i does 1<<i I'm impressed
+{--
+import Data.Int
+import Data.Maybe
+import qualified Data.ByteString as BS
+import qualified Data.ByteString.Char8 as BS8
+import qualified Data.Map.Strict as Map
+import Data.Bits
+
+fast_read_Int = fmap (map (fst . fromJust . BS8.readInt) . BS8.words) BS.getLine :: IO [Int]
+fast_read_Int64 = fmap (map (fromIntegral . fst . fromJust . BS8.readInteger) . BS8.words) BS.getLine :: IO [Int64]
+
+citesc_nr :: String -> Int64
+citesc_nr s = read s
+
+--insertWith :: Ord k => (a -> a -> a) -> k -> a -> Map k a -> Map k a
+f :: Map.Map Int64 Int64 -> Int64 -> Map.Map Int64 Int64
+f book x = Map.insertWith (+) x 1 book
+
+main = do
+    x <- getLine
+    let n = citesc_nr x
+    array <- fast_read_Int64
+    let map_freq = foldl f Map.empty array:: Map.Map Int64 Int64
+    print $ solve map_freq array
+
+solve :: Map.Map Int64 Int64 -> [Int64] -> Int64
+solve map_frec keys = (sum $ map calc' keys) `div` 2  where
+    calc' keys = sum $ map (calc keys) [1..30] :: Int64
+    calc x i 
+        | complement <= 0 = 0 
+        | complement `Map.notMember` map_frec = 0
+        | complement == x = (map_frec Map.! complement) - 1
+        | otherwise = map_frec Map.! complement
+        where complement = bit i - x
+--}
+
+import Data.Int
+import Data.Maybe
+import qualified Data.ByteString as BS
+import qualified Data.ByteString.Char8 as BS8
+--import Data.HashMap.Strict as UMap cannot install it ;c
+import qualified Data.Map.Strict as Map
+import Data.Bits
+
+fast_read_Int = fmap (map (fst . fromJust . BS8.readInt) . BS8.words) BS.getLine :: IO [Int]
+fast_read_Int64 = fmap (map (fromIntegral . fst . fromJust . BS8.readInteger) . BS8.words) BS.getLine :: IO [Int64]
+
+citesc_nr :: String -> Int64
+citesc_nr s = read s
+
+--insertWith :: Ord k => (a -> a -> a) -> k -> a -> Map k a -> Map k a
+f :: Map.Map Int64 Int64 -> Int64 -> Map.Map Int64 Int64
+f book x = Map.insertWith (+) x 1 book
+
+main = do
+    x <- getLine
+    let n = citesc_nr x
+    array <- fast_read_Int64
+    let map_freq = foldl f Map.empty array:: Map.Map Int64 Int64
+    print $ solve map_freq array
+
+solve :: Map.Map Int64 Int64 -> [Int64] -> Int64
+solve map_frec keys = (sum $ map calc' keys) `div` 2  where
+    calc' keys = sum $ map (calc keys) [1..30] :: Int64
+    calc x i 
+        | complement <= 0 = 0 
+        | complement `Map.notMember` map_frec = 0
+        | complement == x = (map_frec Map.! complement) - 1
+        | otherwise = map_frec Map.! complement
+        where complement = bit i - x
