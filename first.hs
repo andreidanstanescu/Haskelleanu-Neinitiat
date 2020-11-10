@@ -211,3 +211,84 @@ solve a b
 --}
 
 
+{--
+#include<bits/stdc++.h>
+using namespace std;
+int ap[26];
+int main()
+{
+    string s;
+    cin>>s;
+    for(auto& i: s)
+        ++ap[i-'a'];
+    /*for(int i=0;i<26;++i)
+    {
+        if(ap[i]&1)
+    }*/
+    int i=0,j=25;
+    while(i<j)
+    {
+        while(i<26 && !(ap[i]&1))
+            ++i;
+        while(j>=0 && !(ap[j]&1))
+            --j;
+        //cout<<(char)(i+'a')<<' '<<(char)(j+'a')<<endl;
+        ++ap[i];
+        --ap[j];
+    }
+    //cout<<ap[0]<<endl;
+    //se termina in i ?
+    string sol;
+    for(int k=0;k<26;++k)
+        for(int j=1;j<=ap[k]/2;++j)
+            sol+=(k+'a');
+    if(i<26 && ap[i]&1)
+        sol+=(i+'a');
+    for(int k=25;k>=0;--k)
+        for(int j=1;j<=ap[k]/2;++j)
+            sol+=(k+'a');
+    cout<<sol;
+}
+--}
+
+--incerc sa portez solutia in haskell
+import Data.List
+import Data.Tuple
+import Control.Monad
+f x = ( snd x ) `mod` 2 == 1
+g x = ( snd x ) `mod` 2 == 0
+
+repl a b
+	| fst a < fst b = [(fst a, snd a + 1), (fst b, snd b - 1)]
+	| fst a == fst b = [(fst a, snd a - 1)]
+	| otherwise = []
+
+--multumesc stack overflow
+repli (a,b) = replicate (b `div` 2) a
+
+main = do
+    x <- getLine
+    --simuleaza map de frecventa
+    let cs = map (\l -> (head l, length l)) . groupBy (\x y -> x == y) $ sortBy (\a b -> compare a b) x
+    --let cs = sortBy (\a b -> compare a b) x
+    --let cs = groupBy (\x y -> x == y) $ sort [1,2,3,2,1]
+    let impare = filter f cs
+    --let pare = filter (!f) cs nope nu merge
+    let pare = filter g cs
+    --indexul la map se face cu !!
+    let mid = if odd (length impare) then [fst $ impare !! (length impare `div` 2)] else []
+    let invers = reverse impare
+    let delete_odds = zipWith repl impare invers
+    let delete_zero = filter (\x -> snd x > 0) $ concat delete_odds
+    let pare' = pare ++ delete_zero
+    let pare_in_ordine = sort pare'
+    let first_half = map repli pare_in_ordine
+    --print first_half
+    --print second_half
+    let second_half = map repli $ reverse pare_in_ordine
+    --print mid
+    let answer = first_half ++ [mid] ++ second_half
+    --let final = filter (/='0') . unwords answer
+    let final = concat answer
+    putStrLn final
+    
