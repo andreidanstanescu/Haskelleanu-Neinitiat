@@ -2,6 +2,7 @@
 {--import Control.Monad (mfilter)
 
 --am facut citirea de mana si nu da rasp corect decat pt cifre
+--upd acum mere
 citesc_nr :: String -> Int
 citesc_nr s = read s
 citesc_array :: [String] -> [Int]
@@ -110,6 +111,7 @@ main = do
     let _for_ = minimum $ map f [0..m-1]
         
     print $ min initial _for_
+<<<<<<< HEAD
 --}
 
 --test working on set equivalent for haskell
@@ -184,3 +186,5 @@ solve map_frec keys = (sum $ map calc' keys) `div` 2  where
         | complement == x = (map_frec Map.! complement) - 1
         | otherwise = map_frec Map.! complement
         where complement = bit i - x
+=======
+>>>>>>> 120ac78969b6bdce02e430bdb29bb7374405d96f
