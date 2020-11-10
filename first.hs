@@ -252,6 +252,7 @@ int main()
 --}
 
 --incerc sa portez solutia in haskell
+--got AC
 import Data.List
 import Data.Tuple
 import Control.Monad
