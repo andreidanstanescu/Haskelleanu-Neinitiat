@@ -152,6 +152,8 @@ solve map_frec keys = (sum $ map calc' keys) `div` 2  where
         where complement = bit i - x
 --}
 
+
+{--
 import Data.Int
 import Data.Maybe
 import qualified Data.ByteString as BS
@@ -186,3 +188,26 @@ solve map_frec keys = (sum $ map calc' keys) `div` 2  where
         | complement == x = (map_frec Map.! complement) - 1
         | otherwise = map_frec Map.! complement
         where complement = bit i - x
+--}
+
+{--
+citesc_nr :: String -> Int
+citesc_nr s = read s
+main = do
+    x <- getLine
+    let n = (citesc_nr x)
+    y <- getLine
+    let m = (citesc_nr y)    
+    --print $ sum [m, n]
+    putStrLn $ solve n m
+
+solve :: Int -> Int -> String
+solve a b 
+    | f a + f b  == f x = "YES"
+    | otherwise = "NO"
+    where
+        f = read . filter (/='0') . show  
+        x = sum [a,b]
+--}
+
+
