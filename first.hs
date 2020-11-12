@@ -252,6 +252,7 @@ int main()
 --}
 
 --incerc sa portez solutia in haskell
+{--
 import Data.List
 import Data.Tuple
 import Control.Monad
@@ -291,4 +292,55 @@ main = do
     --let final = filter (/='0') . unwords answer
     let final = concat answer
     putStrLn final
-    
+--}
+
+
+{--
+import Control.Monad  
+      
+main = do   
+    colors <- forM [1..5] (\a -> do  
+        putStrLn $ "Which color do you associate with the number " ++ show a ++ "?"  
+        color <- getLine  
+        return color)  
+    putStrLn "The colors that you associate with 1, 2, 3 and 4 are: "  
+    mapM putStrLn colors  
+--}
+
+
+--got AC
+import Data.Int
+import Data.Maybe
+import qualified Data.ByteString as BS
+import qualified Data.ByteString.Char8 as BS8
+import qualified Data.Map.Strict as Map
+import qualified Data.Map as M
+fast_read_Int = fmap (map (fst . fromJust . BS8.readInt) . BS8.words) BS.getLine :: IO [Int]
+fast_read_Int64 = fmap (map (fromIntegral . fst . fromJust . BS8.readInteger) . BS8.words) BS.getLine :: IO [Int64]
+
+citesc_nr :: String -> Int64
+citesc_nr s = read s
+citesc_array :: [String] -> [Int64]
+citesc_array = map read
+
+--prefix sums
+sumlist' xx = aux xx 0
+    where aux [] a = []
+          aux (x:xs) a = (a+x) : aux xs (a+x)
+
+
+--pref m a = (a, if a `M.member` m then M.adjust succ a m else M.insert a 1 m)
+f v x = Map.insertWith (+) x 1 v
+
+solve :: Map.Map Int64 Int64 -> [(Int64,Int64)]
+solve map_frec = M.toList map_frec
+
+main = do  
+    x <- getLine
+    let n = (citesc_nr x)  
+    vector <- fast_read_Int64
+    let ps = sumlist' vector
+    let dp = foldl f M.empty ps :: M.Map Int64 Int64
+    print $ (n-) . foldl max 1 . map snd $ solve dp 
+
+
