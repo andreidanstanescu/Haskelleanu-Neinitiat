@@ -308,6 +308,7 @@ main = do
 --}
 
 
+{--
 --got AC
 import Data.Int
 import Data.Maybe
@@ -342,5 +343,35 @@ main = do
     let ps = sumlist' vector
     let dp = foldl f M.empty ps :: M.Map Int64 Int64
     print $ (n-) . foldl max 1 . map snd $ solve dp 
+--}
 
+--plz get AC
+--https://codeforces.com/contest/550/problem/B
+--simple quite beautiful 2^n solution
+import Data.Int ( Int64 )
+import Data.List ()
+import Data.Maybe ( fromJust )
+import qualified Data.ByteString as BS
+import qualified Data.ByteString.Char8 as BS8
+ 
+fast_read_Int = fmap (map (fst . fromJust . BS8.readInt) . BS8.words) BS.getLine :: IO [Int] 
+fast_read_Int64 = fmap (map (fromIntegral . fst . fromJust . BS8.readInteger) . BS8.words) BS.getLine :: IO [Int64]
+
+check :: [Int64] -> Int64 -> Int64 -> Int64 -> Int64
+check m l r x
+    | l' >= 2 && total<=r && total>=l && dist >=x = 1
+    | otherwise = 0
+    where 
+        dist = maximum m - minimum m
+        total = sum m
+        l' = length m
+
+f :: [Int64] -> [Int64] -> Int64 -> Int64 -> Int64 -> Int64
+f [] mask l r y = check mask l r y 
+f (x:rest) mask l r y = (f rest mask l r y) + (f rest (x:mask) l r y)
+
+main = do
+    [n,l,r,x] <- fast_read_Int64
+    asu <- fast_read_Int64
+    print $ f asu [] l r x
 
