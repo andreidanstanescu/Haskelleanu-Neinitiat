@@ -348,6 +348,7 @@ main = do
 --plz get AC
 --https://codeforces.com/contest/550/problem/B
 --simple quite beautiful 2^n solution
+{--
 import Data.Int ( Int64 )
 import Data.List ()
 import Data.Maybe ( fromJust )
@@ -374,4 +375,25 @@ main = do
     [n,l,r,x] <- fast_read_Int64
     asu <- fast_read_Int64
     print $ f asu [] l r x
+--}
 
+{--
+import Data.List 
+import Data.Maybe ( fromJust )
+import qualified Data.ByteString as BS
+import qualified Data.ByteString.Char8 as BS8
+ 
+fast_read_Int = fmap (map (fst . fromJust . BS8.readInt) . BS8.words) BS.getLine :: IO [Int] 
+
+main = do
+    [n,k] <- fast_read_Int
+    a <- fast_read_Int
+    b <- fast_read_Int
+    let bf =  sortBy (\(a, b) (a', b') -> compare (a - b) (a' - b'))  $ zip a b
+    let pozzitive = takeWhile (\(a, b) -> a < b) bf
+    --print pozzitive
+    let cate = max k $ length pozzitive
+    let sum1 = sum $ map fst $ take cate bf
+    let sum2 = sum $ map snd $ take (n-cate) $ reverse bf
+    print $ sum1 + sum2
+--}
