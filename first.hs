@@ -347,12 +347,9 @@ main = do
 
 --plz get AC
 --https://codeforces.com/contest/550/problem/B
-<<<<<<< HEAD
---simple quite beautiful 2^n solution
 {--
-=======
+
 --simple quite beautiful n*2^n solution
->>>>>>> dd8c84ff30b162397b69fc3566c91089a553f6d7
 import Data.Int ( Int64 )
 import Data.List ()
 import Data.Maybe ( fromJust )
