@@ -398,3 +398,29 @@ main = do
     let sum2 = sum $ map snd $ take (n-cate) $ reverse bf
     print $ sum1 + sum2
 --}
+
+--B. Vova and Trophies
+--got AC
+{--
+citesc_nr :: String -> Int
+citesc_nr s = read s
+
+sumgold :: [Char] -> Int -> Int
+sumgold xx onlyfans 
+    | onlyfans < length xx = aux xx 0 0 0
+    | otherwise = onlyfans
+    where aux [] after before rez = rez
+        --after inseamna cate G am de aici incolo
+        --before = cate G am pana la imediat precedentul S
+        --nu merge "dinamica" decat daca am macar un S
+          aux ('G':sir) after before rez = aux sir (after+1) before (max rez (min onlyfans (after+1+before+1) ) )
+          aux ('S':sir) after before rez = aux sir 0 after rez
+
+
+main = do
+    x <- getLine
+    let n = (citesc_nr x)  
+    sir <- getLine
+    let onlyfans = length $ filter (=='G') sir
+    print $ sumgold sir onlyfans
+--}
