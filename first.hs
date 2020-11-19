@@ -424,3 +424,47 @@ main = do
     let onlyfans = length $ filter (=='G') sir
     print $ sumgold sir onlyfans
 --}
+
+--simple reading
+--main = interact $ unlines . filter ((<10) . length) . lines  
+    import Data.List
+    import Control.Monad
+    import Data.Maybe ( fromJust )
+    import qualified Data.ByteString as BS
+    import qualified Data.ByteString.Char8 as BS8
+     
+    fast_read_Int = fmap (map (fst . fromJust . BS8.readInt) . BS8.words) BS.getLine :: IO [Int] 
+     
+    citesc_nr :: String -> Int
+    citesc_nr s = read s
+     
+    check :: [Int] -> Int -> Int -> Int -> Bool
+    check l i n d 
+                | (i+d) == n = True 
+                | (l!!i) == (l!!(i+d)) = check l (i+1) n d
+                | otherwise = False
+     
+    brut :: Int -> Int -> Int -> [Int] -> [Int] -> [Int]
+    brut _ d 0 _ list = reverse list
+    brut i d n l list = brut (mod (i+1) d) d (n-1) l ((head list + l!!i ):list)
+     
+    main = do
+        x <- getLine
+        let n = citesc_nr x
+        a <- fast_read_Int
+        let b = zipWith (-) a $ 0:a
+        let l = filter (\i -> brut 0 i n b [0] == (0:a) ) [1..n]
+        --print b
+        --print $ brut 0 1 n b [0]
+        print $ length l
+        putStr $ join $ intersperse " " $ map show l
+     
+    {--
+    main = do
+        n <- readLn :: IO Int
+        a <- fast_read_Int
+        let b = zipWith (-) a $ 0:a
+        let l = filter (\i -> check b 0 n i == True ) [1..n]
+        print $ length l
+        putStrLn $ join $ intersperse " " $ map show l
+    --}
